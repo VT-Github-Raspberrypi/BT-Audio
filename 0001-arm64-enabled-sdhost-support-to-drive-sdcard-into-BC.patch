@@ -1,0 +1,28 @@
+From 34ca8d852831e9927b1ac597464a0d07bcb3ecf0 Mon Sep 17 00:00:00 2001
+From: Jignesh N Patel <jigneshbhai.narsinhbhai@gvotarytech.com>
+Date: Tue, 1 Aug 2017 10:05:25 +0530
+Subject: [PATCH] arm64: enabled sdhost support to drive sdcard into BCM2837
+ dts
+
+Signed-off-by: Jignesh N Patel <jigneshbhai.narsinhbhai@gvotarytech.com>
+---
+ arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts b/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+index c309633..19449d9 100644
+--- a/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
++++ b/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+@@ -22,3 +22,9 @@
+ &uart1 {
+ 	status = "okay";
+ };
++&sdhost {
++	pinctrl-names = "default";
++	pinctrl-0 = <&sdhost_gpio48>;
++	status = "okay";
++	bus-width = <4>;
++};
+-- 
+2.7.4
+

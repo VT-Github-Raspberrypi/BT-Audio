@@ -1,0 +1,78 @@
+From e7278750edd0790ec76455686d9b56129c823ff0 Mon Sep 17 00:00:00 2001
+From: Jignesh N Patel <jigneshbhai.narsinhbhai@gvotarytech.com>
+Date: Thu, 3 Aug 2017 12:48:31 +0530
+Subject: [PATCH] arm64: bcm2837 Alsa/HDMI Audio Enabled
+
+vchiq is VideoCore driver to make audio working through video player
+Signed-off-by: Jignesh N Patel <jigneshbhai.narsinhbhai@gvotarytech.com>
+---
+ arch/arm/boot/dts/bcm2835-rpi.dtsi               | 22 ++++++++++++++++++++++
+ arch/arm/boot/dts/bcm283x.dtsi                   |  1 +
+ arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts |  6 ++++++
+ 3 files changed, 29 insertions(+)
+
+diff --git a/arch/arm/boot/dts/bcm2835-rpi.dtsi b/arch/arm/boot/dts/bcm2835-rpi.dtsi
+index a7b5ce1..a87cc63 100644
+--- a/arch/arm/boot/dts/bcm2835-rpi.dtsi
++++ b/arch/arm/boot/dts/bcm2835-rpi.dtsi
+@@ -27,6 +27,28 @@
+ 			firmware = <&firmware>;
+ 			#power-domain-cells = <1>;
+ 		};
++
++                fb: fb {
++                        compatible = "brcm,bcm2708-fb";
++                        firmware = <&firmware>;
++                        status = "disabled";
++                };
++
++                vchiq: vchiq {
++                        compatible = "brcm,bcm2835-vchiq";
++                        reg = <0x7e00b840 0xf>;
++                        interrupts = <0 2>;
++                        cache-line-size = <32>;
++                        firmware = <&firmware>;
++                };
++
++                /* Onboard audio */
++                audio: audio {
++                        compatible = "brcm,bcm2835-audio";
++                        brcm,pwm-channels = <8>;
++                        status = "disabled";
++                };
++
+ 	};
+ };
+ 
+diff --git a/arch/arm/boot/dts/bcm283x.dtsi b/arch/arm/boot/dts/bcm283x.dtsi
+index 8405bea..b0006f2 100644
+--- a/arch/arm/boot/dts/bcm283x.dtsi
++++ b/arch/arm/boot/dts/bcm283x.dtsi
+@@ -556,6 +556,7 @@
+ 			compatible = "brcm,bcm2835-pixelvalve2";
+ 			reg = <0x7e807000 0x100>;
+ 			interrupts = <2 10>; /* pixelvalve */
++			status = "disabled";
+ 		};
+ 
+ 		hdmi: hdmi@7e902000 {
+diff --git a/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts b/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+index 19449d9..2bb8d18 100644
+--- a/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
++++ b/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dts
+@@ -22,6 +22,12 @@
+ &uart1 {
+ 	status = "okay";
+ };
++&fb {
++	status = "okay";
++};
++&audio {
++	status = "okay";
++};
+ &sdhost {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&sdhost_gpio48>;
+-- 
+2.7.4
+
